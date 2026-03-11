@@ -12,12 +12,12 @@ const orderSchema = new mongoose.Schema(
       ref: "Asset",
       required: true,
     },
-    type: {
+    side: {
       type: String,
       required: true,
       enum: ["buy", "sell"],
     },
-    rodzaj: {
+    type: {
       type: String,
       required: true,
       enum: ["market", "limit"],
@@ -39,12 +39,11 @@ const orderSchema = new mongoose.Schema(
       default: "open",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-// price required when rodzaj is limit
 orderSchema.pre("validate", function (next) {
-  if (this.rodzaj === "limit" && (this.price == null || this.price <= 0)) {
+  if (this.type === "limit" && (this.price == null || this.price <= 0)) {
     next(new Error("Price is required for limit orders"));
   } else {
     next();
