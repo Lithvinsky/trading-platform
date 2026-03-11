@@ -2,27 +2,25 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-module.exports = {
-  async register(req, res) {
-    const { email, password } = req.body;
+exports.register = async (req, res) => {
+  const { email, password } = req.body;
 
-    const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed });
+  const hashed = await bcrypt.hash(password, 10);
+  const user = await User.create({ email, password: hashed });
 
-    res.json({ message: "User created", userId: user._id });
-  },
+  res.json({ message: "User created", userId: user._id });
+};
 
-  async login(req, res) {
-    const { email, password } = req.body;
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: "Invalid credentials" });
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ error: "Invalid credentials" });
 
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(400).json({ error: "Invalid credentials" });
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) return res.status(400).json({ error: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    res.json({ token });
-  },
+  res.json({ token });
 };
