@@ -1,8 +1,6 @@
-const Trade = require("../models/Trade");
+const Trade = require("../models/trade");
 
-module.exports = {
-  async getUserTrades(req, res) {
-    const trades = await Trade.find({ userId: req.user.id });
-    res.json(trades);
-  },
+exports.getUserTrades = async (req, res) => {
+  const trades = await Trade.find({ user: req.user.id });
+  res.json(trades);
 };

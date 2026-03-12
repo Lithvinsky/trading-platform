@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth.routes");
 const assetRoutes = require("./routes/asset.routes");
 const orderRoutes = require("./routes/order.routes");
 const tradeRoutes = require("./routes/trade.routes");
+const walletRoutes = require("./routes/wallet.routes");
 
 const MONGO_URI =
   "mongodb+srv://trading_user:8Wk0zmMwnLX1Zi9w@cluster0.hwycxmk.mongodb.net/?appName=Cluster0";
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/assets", assetRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/trades", tradeRoutes);
+app.use("/api/wallet", walletRoutes);
 
 mongoose
   .connect(MONGO_URI)
